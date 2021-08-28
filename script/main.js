@@ -18,6 +18,10 @@ let volumeScale = document.getElementById("video-hud__volume");
 const speedSelect = document.getElementById("video-hud__speed");
 
 const watchNowBtn = document.querySelectorAll(".card__side-button");
+const fullScreenBtn = document.querySelector(".video-hud__fullscreen");
+
+const container = document.querySelector(".video-container");
+let progressVar = 100;
 
 function videoTime(time) {
   time = Math.floor(time);
@@ -74,7 +78,7 @@ function videoProgress() {
 
 function videoChangeTime(e) {
   let mouseX = Math.floor(e.pageX - progressBar.offsetLeft);
-  let progress = mouseX / (progressBar.offsetWidth / 100) - 100;
+  let progress = mouseX / (progressBar.offsetWidth / 100) - progressVar;
   console.log(progress);
 
   videoPlayer.currentTime = videoPlayer.duration * (progress / 100);
@@ -121,6 +125,41 @@ function videoChangeSpeed() {
 
   videoPlayer.playbackRate = speed;
 }
+function openFullscreen() {
+  if (container.requestFullscreen) {
+    container.requestFullscreen();
+  } else if (container.webkitRequestFullscreen) {
+    /* Safari */
+    container.webkitRequestFullscreen();
+  } else if (container.msRequestFullscreen) {
+    /* IE11 */
+    container.msRequestFullscreen();
+  }
+}
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    /* Safari */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    /* IE11 */
+    document.msExitFullscreen();
+  }
+}
+
+let fullscreenEnabled = false;
+fullScreenBtn.addEventListener("click", function () {
+  if (!fullscreenEnabled) {
+    progressVar = 0;
+    openFullscreen();
+    fullscreenEnabled = true;
+  } else if (fullscreenEnabled) {
+    progressVar = 100;
+    closeFullscreen();
+    fullscreenEnabled = false;
+  }
+});
 actionButton.addEventListener("click", videoAct);
 
 videoPlayer.addEventListener("click", videoAct);
@@ -145,6 +184,15 @@ watchNowBtn.forEach((btn) => {
     playerBox.style.visibility = "visible";
     playerBox.style.opacity = 1;
     videoPlayer.src = e.target.dataset.src;
+
     videoAct();
+
+    document.addEventListener("mousemove", function (e) {
+      const customControls = document.querySelector("div.video-hud");
+      customControls.style.opacity = "1";
+      setTimeout(function () {
+        customControls.style.transform = "0";
+      }, 100);
+    });
   });
 });

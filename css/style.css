@@ -154,7 +154,11 @@ body {
   margin: 0;
   display: flex;
   justify-content: space-around;
-  padding: 2rem 0; }
+  padding: 2rem 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  opacity: 0; }
   .video-hud:not(:last-child) {
     margin-right: 1.5rem; }
   .video-hud__element {
@@ -187,6 +191,12 @@ body {
     background: #ccc;
     width: 30px;
     border-radius: 0 0 100px 100px; }
+  .video-hud__fullscreen {
+    font-size: 3rem;
+    text-decoration: none;
+    color: white;
+    background: none;
+    border: none; }
 
 .card {
   perspective: 150rem;

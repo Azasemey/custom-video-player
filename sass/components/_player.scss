@@ -32,6 +32,10 @@
   display: flex;
   justify-content: space-around;
   padding: 2rem 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  opacity: 0;
   &:not(:last-child) {
     margin-right: 1.5rem;
   }
@@ -83,5 +87,12 @@
     width: 30px;
 
     border-radius: 0 0 100px 100px;
+  }
+  &__fullscreen {
+    font-size: 3rem;
+    text-decoration: none;
+    color: white;
+    background: none;
+    border: none;
   }
 }
