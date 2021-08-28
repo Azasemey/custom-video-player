@@ -1,0 +1,15 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+html {
+  // 1 rem = 10px
+  font-size: 75%;
+}
+body {
+  box-sizing: border-box;
+  background-image: linear-gradient(to right bottom, #414141, #000000);
+}
