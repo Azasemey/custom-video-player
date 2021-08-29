@@ -19,7 +19,7 @@ const speedSelect = document.getElementById("video-hud__speed");
 
 const watchNowBtn = document.querySelectorAll(".card__side-button");
 const fullScreenBtn = document.querySelector(".video-hud__fullscreen");
-
+const customControls = document.querySelector("div.video-hud");
 const container = document.querySelector(".video-container");
 let progressVar = 100;
 
@@ -46,6 +46,7 @@ function videoTime(time) {
 }
 function videoAct() {
   if (videoPlayer.paused) {
+    customControls.style.opacity = "0";
     videoPlayer.play();
     actionButtonIcon.classList.remove("icon-music-play-button");
     actionButtonIcon.classList.add("icon-music-pause-button");
@@ -55,6 +56,8 @@ function videoAct() {
     );
   } else {
     videoPlayer.pause();
+
+    customControls.style.opacity = "1";
     actionButtonIcon.classList.add("icon-music-play-button");
     actionButtonIcon.classList.remove("icon-music-pause-button");
 
@@ -187,12 +190,11 @@ watchNowBtn.forEach((btn) => {
 
     videoAct();
 
-    document.addEventListener("mousemove", function (e) {
-      const customControls = document.querySelector("div.video-hud");
+    customControls.addEventListener("mouseenter", function (e) {
       customControls.style.opacity = "1";
-      setTimeout(function () {
-        customControls.style.transform = "0";
-      }, 100);
+    });
+    customControls.addEventListener("mouseleave", function (e) {
+      customControls.style.opacity = "0";
     });
   });
 });
