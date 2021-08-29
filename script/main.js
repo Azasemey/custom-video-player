@@ -16,6 +16,7 @@ const muteButton = document.getElementById("video-hud__mute");
 let volumeScale = document.getElementById("video-hud__volume");
 
 const speedSelect = document.getElementById("video-hud__speed");
+const speedOptions = document.querySelectorAll("#video-hud__speed>option");
 
 const watchNowBtn = document.querySelectorAll(".card__side-button");
 const fullScreenBtn = document.querySelector(".video-hud__fullscreen");
@@ -152,7 +153,7 @@ function closeFullscreen() {
 }
 
 let fullscreenEnabled = false;
-fullScreenBtn.addEventListener("click", function () {
+function toggleScreen() {
   if (!fullscreenEnabled) {
     progressVar = 0;
     openFullscreen();
@@ -162,11 +163,38 @@ fullScreenBtn.addEventListener("click", function () {
     closeFullscreen();
     fullscreenEnabled = false;
   }
+}
+fullScreenBtn.addEventListener("click", function () {
+  toggleScreen();
 });
-actionButton.addEventListener("click", videoAct);
 
-videoPlayer.addEventListener("click", videoAct);
+[actionButton, videoPlayer].forEach((e) =>
+  e.addEventListener("click", videoAct)
+);
+
+let curSpeed = 3;
+function speedUp() {
+  speedSelect.value = speedOptions[curSpeed].value;
+  videoPlayer.playbackRate = speedSelect.value / 100;
+}
 muteButton.addEventListener("click", videoMute);
+document.addEventListener("keydown", function (e) {
+  e.preventDefault();
+
+  if (playerBox.style.opacity === "1") {
+    e.code === "Space" ? videoAct() : e.code === "KeyM" ? videoMute() : false;
+    e.code === "KeyF" ? toggleScreen() : false;
+    if (e.code === "Period") {
+      curSpeed++;
+      curSpeed < speedOptions.length
+        ? speedUp()
+        : (curSpeed = speedOptions.length);
+    } else if (e.code === "Comma") {
+      curSpeed--;
+      curSpeed >= 0 ? speedUp() : (curSpeed = 0);
+    }
+  }
+});
 
 volumeScale.addEventListener("change", videoChangeVolume);
 
@@ -194,7 +222,9 @@ watchNowBtn.forEach((btn) => {
       customControls.style.opacity = "1";
     });
     customControls.addEventListener("mouseleave", function (e) {
-      customControls.style.opacity = "0";
+      if (!videoPlayer.paused) {
+        customControls.style.opacity = "0";
+      }
     });
   });
 });

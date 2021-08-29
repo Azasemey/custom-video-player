@@ -171,7 +171,8 @@ body {
   position: absolute;
   width: 100%;
   bottom: 0;
-  opacity: 0; }
+  opacity: 0;
+  transition: opacity 0.3s ease-in; }
   .video-hud:not(:last-child) {
     margin-right: 1.5rem; }
   .video-hud__element {
