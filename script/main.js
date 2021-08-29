@@ -81,9 +81,9 @@ function videoProgress() {
 }
 
 function videoChangeTime(e) {
+  progressVar = document.fullscreenElement !== null ? 0 : 100;
   let mouseX = Math.floor(e.pageX - progressBar.offsetLeft);
   let progress = mouseX / (progressBar.offsetWidth / 100) - progressVar;
-  console.log(progress);
 
   videoPlayer.currentTime = videoPlayer.duration * (progress / 100);
 }
@@ -151,17 +151,13 @@ function closeFullscreen() {
     document.msExitFullscreen();
   }
 }
-
+// console.log(document.fullscreenElement);
 let fullscreenEnabled = false;
 function toggleScreen() {
-  if (!fullscreenEnabled) {
-    progressVar = 0;
+  if (document.fullscreenElement === null) {
     openFullscreen();
-    fullscreenEnabled = true;
-  } else if (fullscreenEnabled) {
-    progressVar = 100;
+  } else if (document.fullscreenElement !== null) {
     closeFullscreen();
-    fullscreenEnabled = false;
   }
 }
 fullScreenBtn.addEventListener("click", function () {
@@ -179,9 +175,10 @@ function speedUp() {
 }
 muteButton.addEventListener("click", videoMute);
 document.addEventListener("keydown", function (e) {
-  e.preventDefault();
+  // e.preventDefault();
 
   if (playerBox.style.opacity === "1") {
+    e.code === "Space" ? e.preventDefault() : false;
     e.code === "Space" ? videoAct() : e.code === "KeyM" ? videoMute() : false;
     e.code === "KeyF" ? toggleScreen() : false;
     if (e.code === "Period") {
@@ -202,14 +199,17 @@ speedSelect.addEventListener("change", videoChangeSpeed);
 videoPlayer.addEventListener("timeupdate", videoProgress);
 
 progressBar.addEventListener("click", videoChangeTime);
-
+function closePlayer() {
+  playerBox.style.visibility = "hidden";
+  playerBox.style.opacity = 0;
+  videoPlayer.pause();
+}
 playerBox.addEventListener("click", function (e) {
   if (e.target === playerBox) {
-    playerBox.style.visibility = "hidden";
-    playerBox.style.opacity = 0;
-    videoPlayer.pause();
+    closePlayer();
   }
 });
+
 watchNowBtn.forEach((btn) => {
   btn.addEventListener("click", function (e) {
     playerBox.style.visibility = "visible";
