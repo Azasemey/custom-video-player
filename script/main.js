@@ -90,7 +90,8 @@ function videoChangeTime(e) {
 
 function videoChangeVolume() {
   let volume = volumeScale.value / 100;
-
+  let volBg = document.querySelector("input[type=range]::-webkit-slider-thumb");
+  volBg.style.background = `linear-gradient(90deg, rgba(243,254,255,1) 0%, rgba(243,254,255,1) ${volumeScale.value}%, rgba(243,254,255,0.4822303921568627) ${volumeScale.value}%, rgba(243,254,255,0.48783263305322133) 100%);`;
   videoPlayer.volume = volume;
 
   if (videoPlayer.volume == 0) {
@@ -193,8 +194,7 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-volumeScale.addEventListener("change", videoChangeVolume);
-
+volumeScale.addEventListener("mousemove", videoChangeVolume);
 speedSelect.addEventListener("change", videoChangeSpeed);
 videoPlayer.addEventListener("timeupdate", videoProgress);
 

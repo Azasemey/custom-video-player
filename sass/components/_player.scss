@@ -37,6 +37,8 @@
   bottom: 0;
   opacity: 0;
   transition: opacity 0.3s ease-in;
+  -webkit-box-shadow: 5px 5px 5px rgba(68,68,68,0.6);
+  filter: blur(10px)
   &:not(:last-child) {
     margin-right: 1.5rem;
   }
@@ -123,7 +125,7 @@ input[type="range"] {
     background-color: rgba(white, 0.8);
     cursor: pointer;
     opacity: 0.8;
-    margin-top: -0.5rem;
+    // margin-top: -0.5rem;
   }
   &::-webkit-slider-runnable-track {
     width: 100%;
